@@ -1,0 +1,217 @@
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: sans-serif;
+}
+
+body{
+background-color:  rgb(41, 45, 42)    ;
+}
+
+.container {
+width: 100vw;
+}
+
+
+.nav {
+display: flex;
+align-items: center;
+justify-content: space-between;
+height: 4rem;
+color: white;
+background-color: #639a63    ;
+padding: 0 2rem; 
+font-weight: 500;
+/* border-bottom: 1px solid rgba(0, 0, 0, 0.97); */
+}
+
+.logo {
+margin-left: 1rem; 
+}
+
+.logo img {
+width: 4rem;
+height: 4rem;
+cursor: pointer;
+}
+
+.nav ul {
+display: flex;
+justify-content: center;
+align-items: center;
+flex-grow: 1;
+padding-left: 2rem; 
+}
+
+.nav ul li {
+list-style: none;
+font-size: 1.2rem;
+margin-right: 1.5rem; 
+cursor: pointer;
+}
+
+.nav ul li:last-child {
+margin-right: 0; 
+}
+.nav ul li {
+position: relative;
+}
+
+.nav ul li a {
+color: white; /* Text color for anchor tags */
+text-decoration: none; /* Remove underline by default */
+padding: 5px 10px;
+font-size: 1.2rem;
+font-weight: bold;
+transition: color 0.3s; /* Smooth color transition */
+}
+
+.nav ul li a:hover {
+color: orange;
+}
+
+.nav ul li.active a {
+text-decoration: underline; /* Underline the active link */
+color: orange;
+text-decoration-color: orange; /* Set underline color to red */
+}
+.btn {
+height: 2rem;
+width: 6rem;
+margin-left: 0.5rem;
+border-radius: 1.1rem;
+border: 2px solid rgb(196, 203, 197);
+font-size: large;
+font-weight: 400;
+cursor: pointer;
+color: white;
+background-color:orange;
+font-weight: bold;
+
+
+}
+.btn:hover{
+background-color: rgb(225, 149, 10);
+}
+.nav-buttons {
+display: flex;
+align-items: center;
+
+}
+
+/* Bar graph container */
+#myChart {
+display: block;
+position: relative;
+margin-top: 120px; /* Increase top margin */
+margin-left: auto;
+margin-right: 100px; /* Move further to the right */
+width: 700px; /* Increase width */
+height: 1000px; /* Increase height */
+background-color:#37474f;
+border-radius: 10px;
+padding: 1rem;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+border-radius: 15px;
+background: rgba(255, 255, 255, 0.1);
+overflow: hidden;
+display: flex;
+align-items: center;
+border-top: 1px solid rgba(255, 255, 255, 0.5);
+border-left: 1px solid rgba(255,255,255,0.5);
+backdrop-filter: blur(5px);
+}
+
+/* Add some basic styles for responsiveness */
+@media (max-width: 768px) {
+#myChart {
+width: 90%; /* Adjust width for smaller screens */
+height: 300px; /* Adjust height for smaller screens */
+margin-right: auto; /* Center it on smaller screens */
+}
+}
+
+.heading{
+color: orange;
+display: flex;
+justify-content: center;
+margin-top: 1.2rem;
+}
+
+.chart-container {
+display: flex;
+align-items: flex-start; /* Align items to the top */
+margin: -20px auto;
+width: 100%; /* Set width for the chart container */
+}
+
+#tilt-container {
+flex: 1; /* Take available space */
+margin-left: 20px; /* Space between text and chart */
+}
+
+.sub-heading {
+flex: 1; /* Allow this section to grow */
+margin-right: 20px; /* Space on the right */
+max-width: 500px; /* Optional: Limit width of the text */
+color: white;
+margin-top: 100px;
+margin-left: 150px;
+}
+
+.Get-Started{
+width: 10rem;
+height: 3rem;
+border-radius:2rem;
+background-color: orange;
+border: none;
+color: white;
+font-size: 1.05rem;
+margin-top: 40px;
+cursor: pointer;
+margin-left: 100px;
+
+
+}
+.Get-Started:hover{
+background-color:  rgb(225, 149, 10);
+}
+
+.sub-heading p{
+font-size: 30px;
+}
+.sub-heading h1{
+font-size: 90px;
+}
+
+.sub-heading #your{
+color: orange;
+}
+.footer {
+background-color: #37474f;
+color: white;
+text-align: center;
+padding: 0.4rem 0;
+position: absolute;
+width: 100%;
+bottom: 0;
+left: 0;
+}
+
+.footer p {
+margin: 0;
+font-size: 0.9rem;
+}
+.footer {
+background-color: rgb(52, 51, 51);
+color: white;
+text-align: center;
+padding: 0.4rem 0;
+position: fixed;
+width: 100%;
+bottom: 0;
+left: 0;
+}

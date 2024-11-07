@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background-color: #2c3e50; /* Background color */
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .content {
+            display: flex;
+            justify-content: center; /* Aligns items to the center */
+            align-items: flex-start;
+            color: white;
+            margin-top: 20px;
+            gap: 20px; /* Space between cards */
+        }
+
+        .main {
+            background-color: #4f5f67;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8), 20px 20px 50px rgba(0, 0, 0, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+            border-left: 1px solid rgba(255, 255, 255, 0.5);
+            height: 500px;
+            width: 700px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .expenditure-card {
+            background-color: #3c4a4f; /* Slightly darker for contrast */
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+            height: 500px;
+            width: 300px; /* Adjust width as necessary */
+        }
+
+        .total-container {
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        #total {
+            width: 30%;
+            padding: 5px;
+            border: none;
+            border-bottom: 2px solid #ccc;
+            background-color: transparent;
+            color: white;
+            outline: none;
+            -moz-appearance: textfield;
+            appearance: none;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        #total::-webkit-outer-spin-button,
+        #total::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        #total:focus {
+            border-bottom-color: #ffcc00;
+        }
+
+        #update-total {
+            height: 2rem;
+            width: 6rem;
+            margin-left: 0.5rem;
+            border-radius: 1.1rem;
+            border: none;
+            cursor: pointer;
+            color: white;
+            background-color: orange;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        #update-total:hover {
+            background-color: #e0a700; /* Darker shade on hover */
+        }
+        .expenditure-card {
+            background-color:#4f5f67;
+      
+      padding: 1rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+      box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.15);
+      
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255,255,255,0.5);  
+      
+      padding: 20px;
+      
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+    height: 500px;
+    width: 400px;
+    overflow-y: hidden; /* Hide scrollbar by default */
+    transition: overflow 0.3s; /* Smooth transition */
+}
+
+.expenditure-card:hover {
+    overflow-y: auto; /* Show scrollbar on hover */
+}
+
+/* Optional: Style the scrollbar */
+.expenditure-card::-webkit-scrollbar {
+    width: 5px;
+    
+}
+
+.expenditure-card::-webkit-scrollbar-thumb {
+    background-color: #ffcc00;
+    border-radius: 8px;
+}
+
+.expenditure-card::-webkit-scrollbar-thumb:hover {
+    background-color: #e0a700;
+}
+
+
+
+        .expenditure-form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+            gap: 10px; /* Space between inputs */
+        }
+
+        .expenditure-form input {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .expenditure-form input:focus {
+            border-color: #ffcc00; /* Focus color */
+        }
+
+        .expenditure-form button {
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            color: white;
+            background-color: #28a745; /* Green color */
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .expenditure-form button:hover {
+            background-color: #218838; /* Darker shade on hover */
+        }
+
+
+        h3 {
+            color: white;
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            color: white;
+            margin-bottom: 10px; /* Space between expenditures */
+        }
+
+        .expenditure-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #ffcc00; /* Line separator */
+            padding: 5px 0;
+        }
+
+        .expenditure-amount {
+            color: white; /* Amount color */
+        }
+
+        .expenditure-description,
+        .expenditure-date {
+            color:white; /* Description and date color */
+        }
+        #total.negative {
+        color: red;
+        }
+        #add-exp{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border:none;
+            font-size: 35px;
+            background-color: orange;
+            margin-left: 250px;
+            cursor: pointer;
+            margin-top: -50px;
+        }
+
+        #transaction{
+            width: 100px;
+            height: 40px;
+           background-color: orange;
+           border: none;
+           border-radius: 20px;
+           color: black;
+           font-weight: 400;
+           font-size: 16px;
+           cursor: pointer;
+           
+        }
+        #transaction:hover{
+            background-color: #e0a700;
+        }
+        .expenditure-card h3{
+            color: orange;
+        }
+        #clear{
+            width: 100%;
+            padding: 10px;
+            background-color: rgb(246, 70, 70);
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        #clear:hover{
+            background-color: rgb(207, 77, 77);
+        }
+        .search-container {
+    position: relative;
+    width: 100%; /* Adjust width if needed */
+    margin-top: 10px;
+}
+
+#search-box {
+    width: 100%;
+    padding: 10px 15px 10px 40px; /* Adjust padding for icon space */
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    outline: none;
+    background-color: #ccc; /* Match with card color */
+    color: black;
+    transition: border-color 0.3s;
+}
+
+#search-box:focus {
+    border-color: #ffcc00; /* Highlight border on focus */
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: red; /* Icon color */
+    font-size: 1.2rem;
+}
+.sorting-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.sorting-buttons button {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sorting-buttons button:hover {
+    background-color: #218838;
+}
+.search-sort-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.search-box {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.sorting-buttons button {
+    margin-left: 5px;
+    margin-top: 10px;
+}
+.separator {
+    border: none;          /* Remove default border */
+    border-top: 2px solid red; /* Set red color for the separator */
+    margin: 10px 0;       /* Space above and below the line */
+}
+
+     .pie-chart-container {
+            width: 100%;
+            max-width: 300px;
+            margin: 20px auto;
+        }
+
+
+
+        
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <%- include('../includes/navbar.ejs') %>
+    </div>
+    <%- include('../includes/flash.ejs') %>
+
+    <div class="content">
+        <div class="main">
+            <div class="total-container">
+
+                
+                    <label for="total">Total:</label>
+                    <span>₹</span>
+                    <input type="number" id="total" name="total" value="<%= total %>" required class="<%= total < 0 ? 'negative' : '' %>">
+                    <button type="submit" id="update-total" onclick="window.location.href='/update-total';">Income</button>
+                
+                
+                            <!-- Pie Chart Canvas -->
+            <div class="pie-chart-container">
+                <canvas id="expenditurePieChart"></canvas>
+            </div>
+
+
+                <button id="transaction" onclick="window.location.href='/transaction';">Transaction</button>
+
+                <button id="add-exp" onclick="window.location.href='/add-expenditure';">+</button>
+                <!-- Form for adding expenditures -->
+               
+            </div>
+        </div>
+
+        <div class="expenditure-card">
+            <h3>Expenditures:</h3>
+            <div class="search-sort-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="search-box" placeholder="Search....." oninput="filterExpenditures()">
+                <div class="sorting-buttons">
+                    <button onclick="sortExpenditures('name')"> Name</button>
+                    <button onclick="sortExpenditures('date')"> Date</button>
+                </div>
+                
+            </div>
+            <ul>
+                    <% if (expenditures.length > 0) { %>
+                        <% 
+                        let lastDate = null; // Initialize variable to track the last date
+                        expenditures.forEach(expenditure => { 
+                            const currentDate = new Date(expenditure.date).toLocaleDateString();
+                            // Check if the current date is different from the last date
+                            if (lastDate !== currentDate) {
+                                if (lastDate !== null) { 
+                                    // Add a line separator for a new date
+                                    %>
+                                    <hr class="separator">
+                                    <%
+                                }
+                                lastDate = currentDate; // Update last date
+                            }
+                        %>
+                        <li class="expenditure-item" data-description="<%= expenditure.description.toLowerCase() %>">
+                            <span class="expenditure-icon" style="color: <%= expenditure.color %>; font-size: 20px;">
+                                <i class="fas <%= expenditure.icon %>"></i>
+                            </span>
+                            <span class="expenditure-description"><%= expenditure.description %></span>
+                            <span class="expenditure-amount">₹<%= expenditure.amount.toFixed(2) %></span>
+                            <span class="expenditure-date"><%= currentDate %></span>
+                        </li>
+                        <% }) %>
+                    <% } else { %>
+                        <li>No expenditures recorded yet.</li>
+                    <% } %>
+                </ul>
+                
+            <form action="/clear-expenditures" method="POST" style="display:inline;">
+                <button type="submit" id="clear" onclick="return confirm('Are you sure you want to clear all expenditures? This action cannot be undone.');">Clear</button>
+            </form>
+        
+        
+            
+        </div>
+        
+    </div>
+
+    <%- include('../includes/footer.ejs') %>
+
+    <div id="expenditures-data" data-expenditures='<%= JSON.stringify(expenditures) %>'></div>
+
+<script>
+    const expendituresData = document.getElementById('expenditures-data').getAttribute('data-expenditures');
+    const expenditures = JSON.parse(expendituresData);
+    console.log(expenditures);
+</script>
+
+    <script>
+        
+        function filterExpenditures() {
+        const searchBox = document.getElementById('search-box');
+        const filter = searchBox.value.toLowerCase();
+        const expenditures = document.querySelectorAll('.expenditure-item');
+
+        expenditures.forEach(item => {
+            const description = item.getAttribute('data-description');
+            if (description.includes(filter)) {
+                item.style.display = ''; // Show matching items
+            } else {
+                item.style.display = 'none'; // Hide non-matching items
+            }
+        });
+    }
+    function sortExpenditures(criteria) {
+        const expendituresList = document.querySelectorAll('.expenditure-item');
+        const expendituresArray = Array.from(expendituresList);
+
+        expendituresArray.sort((a, b) => {
+            if (criteria === 'name') {
+                const nameA = a.querySelector('.expenditure-description').textContent.toLowerCase();
+                const nameB = b.querySelector('.expenditure-description').textContent.toLowerCase();
+                return nameA.localeCompare(nameB);
+            } else if (criteria === 'date') {
+                const dateA = new Date(a.querySelector('.expenditure-date').textContent);
+                const dateB = new Date(b.querySelector('.expenditure-date').textContent);
+                return dateA - dateB;
+            }
+        });
+
+        // Clear current list and append sorted items
+        const ul = document.querySelector('.expenditure-card ul');
+        ul.innerHTML = ''; // Clear the list
+        expendituresArray.forEach(item => ul.appendChild(item));
+    }
+
+        
+    </script>
+
+    <script>
+                const expendituress = <%- JSON.stringify(expenditures) %>;
+        
+        // Prepare data for the chart
+        const labels = expenditures.map(exp => exp.description);
+        const data = expenditures.map(exp => exp.amount);
+        const backgroundColors = expenditures.map(exp => exp.color);
+
+        // Configure and render the Pie Chart
+        const ctx = document.getElementById('expenditurePieChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: backgroundColors,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                        labels: {
+                            color: '#ffffff' // Legend text color
+                        },
+                        display:false
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

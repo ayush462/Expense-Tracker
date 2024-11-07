@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(41, 45, 42);
+        }
+
+        .alert {
+            padding: 15px;
+            margin: 20px auto;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 600px;
+            position: relative; /* For positioning the close button */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: inherit; /* Inherit color from parent */
+        }
+
+        .close:hover {
+            color: #0056b3; /* Change color on hover for better UX */
+        }
+    </style>
+</head>
+<body>
+
+    <% if (success && success.length > 0) { %>
+        <% success.forEach(function(msg) { %>
+            <div class="alert alert-success" role="alert">
+                <%= msg %>
+                <button type="button" class="close" onclick="closeAlert(this)" aria-label="Close">&times;</button>
+            </div>
+        <% }); %>
+    <% } %>
+
+    <% if (error && error.length > 0) { %>
+        <% error.forEach(function(msg) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= msg %>
+                <button type="button" class="close" onclick="closeAlert(this)" aria-label="Close">&times;</button>
+            </div>
+        <% }); %>
+    <% } %>
+
+    <script>
+        function closeAlert(button) {
+            // Hide the parent alert element when the close button is clicked
+            button.parentElement.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <style>
+        .content{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            color: white;
+        }
+        .main{
+            background-color:#4f5f67;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+      box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.15);
+      overflow: hidden;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255,255,255,0.5);  
+      height: 300px;
+      width: 400px;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      width: 300px; /* Fixed width for the form */
+    }
+    .main input{
+        width: 100%; /* Full width inputs */
+      padding: 10px;
+      margin: 8px 0; /* Spacing between inputs */
+      border: 1px solid #ccc; /* Border style */
+      border-radius: 4px;
+    }
+    
+    #update-total {
+            height: 2rem;
+            width: 6rem;
+            margin-left: 0.5rem;
+            border-radius: 1.1rem;
+            border: none;
+            cursor: pointer;
+            color: white;
+            background-color: orange;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+
+    </style>
+</head>
+<body>
+      <div class="navbar">
+    <%- include('../includes/navbar.ejs') %>
+  </div>
+  <%- include('../includes/flash.ejs') %>
+  
+  <div class="content">
+    <div class="main">
+        <form action="/update-total" method="POST">
+            <label for="total">Total:</label>
+            <span>₹</span>
+            <input type="number" id="total" name="total" value="0">
+            <button type="submit" id="update-total">Add</button>
+            </form>
+    </div>
+  </div>
+
+
+
+  <%- include('../includes/footer.ejs') %>
+</body>
+</html>

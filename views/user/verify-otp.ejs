@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    /* Centering the form */
+    .form-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .otp-form {
+      background-color: #4f5f67;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+      box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.15);
+      overflow: hidden;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255,255,255,0.5);  
+      height: 250px;
+      width: 400px;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+    }
+    
+    .otp-form h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .otp-form input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .otp-form button {
+      width: 100%;
+      padding: 10px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 7px;
+    }
+
+    .otp-form button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <%- include('../includes/navbar.ejs') %>
+  </div>
+  <%- include('../includes/flash.ejs') %>
+  <div class="form-container">
+    <div class="otp-form">
+      <h2>OTP Verification</h2>
+      <form action="/verify-otp" method="post">
+        <input type="hidden" name="email" value="<%= email %>">
+        <input type="text" name="otp" placeholder="Enter OTP" required>
+        <button type="submit">Verify OTP</button>
+      </form>
+    </div>
+  </div>
+  <%- include('../includes/footer.ejs') %>
+</body>
+</html>

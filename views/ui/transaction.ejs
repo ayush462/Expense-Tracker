@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <style>
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            margin-top: 20px;
+        }
+        .main {
+            background-color: #4f5f67;
+            padding: 1rem;
+            box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+            border-left: 1px solid rgba(255, 255, 255, 0.5);
+            height: 500px;
+            width: 400px;
+            overflow-y: hidden; /* Hide scrollbar by default */
+            transition: overflow 0.3s;
+        }
+        .main:hover {
+            overflow-y: auto; /* Show scrollbar on hover */
+        }
+        .main::-webkit-scrollbar {
+            width: 5px;
+        }
+        .main::-webkit-scrollbar-thumb {
+            background-color: #ffcc00;
+            border-radius: 8px;
+        }
+        .main::-webkit-scrollbar-thumb:hover {
+            background-color: #e0a700;
+        }
+        .main h2 {
+            color: orange;
+        }
+        .transaction-item {
+            padding: 10px 0;
+            border-bottom: 2px solid orange;
+            margin-bottom: 8px;
+        }
+        .transaction-item strong {
+            display: inline-block;
+            width: 100px;
+            font-weight: bold;
+        }
+        #clear {
+            width: 100%;
+            padding: 10px;
+            background-color: rgb(246, 70, 70);
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        #clear:hover {
+            background-color: rgb(207, 77, 77);
+        }
+        #sort {
+            width: 100%;
+            padding: 10px;
+            background-color: #ffa500;
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        #sort:hover {
+            background-color: #ff8c00;
+        }
+        .red-line {
+            height: 2px;
+            background-color: red;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <%- include('../includes/navbar.ejs') %>
+    </div>
+    <%- include('../includes/flash.ejs') %>
+
+    <div class="content">
+        <div class="main">
+            <h2>Transaction History</h2>
+            <button id="sort" onclick="sortTransactions()">Sort by Date</button>
+            <ul id="transaction-list">
+                <% 
+                let previousDate = null; 
+                transactions.forEach(transaction => {
+                    const currentDate = new Date(transaction.date);
+                    if (previousDate) {
+                        const timeDiff = currentDate - previousDate;
+                        const dayInMs = 24 * 60 * 60 * 1000;
+                        const weekInMs = 7 * dayInMs;
+                        const monthInMs = 30 * dayInMs;
+                        const yearInMs = 365 * dayInMs;
+
+                        if (timeDiff >= yearInMs) {
+                            %><div class="red-line"></div><% 
+                        } else if (timeDiff >= monthInMs) {
+                            %><div class="red-line"></div><% 
+                        } else if (timeDiff >= weekInMs) {
+                            %><div class="red-line"></div><% 
+                        } else if (timeDiff >= dayInMs) {
+                            %><div class="red-line"></div><% 
+                        }
+                    }
+                    previousDate = currentDate;
+                %>
+                <li class="transaction-item">
+                    <div>
+                        <strong>Date:</strong> <span><%= currentDate.toLocaleString() %></span>
+                    </div>
+                    <div>
+                        <strong>Amount:</strong> <span><%= transaction.amount %></span>
+                    </div>
+                </li>
+                <% }); %>
+            </ul>
+            <form action="/clear-transactions" method="POST" style="display:inline;">
+                <button type="submit" id="clear" onclick="return confirm('Are you sure you want to clear all transactions? This action cannot be undone.');">Clear All Transactions</button>
+            </form>
+        </div>
+    </div>
+
+    <%- include('../includes/footer.ejs') %>
+
+    <script>
+        function sortTransactions() {
+            const transactionList = document.getElementById('transaction-list');
+            const transactions = Array.from(transactionList.getElementsByClassName('transaction-item'));
+
+            transactions.sort((a, b) => {
+                const dateA = new Date(a.querySelector('span').innerText);
+                const dateB = new Date(b.querySelector('span').innerText);
+                return dateA - dateB; // Sort ascending
+            });
+
+            transactionList.innerHTML = '';
+
+            transactions.forEach(transaction => {
+                transactionList.appendChild(transaction);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Basic reset */
+        body, h1, h2, h3, p, ul, li, form, label {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2c3e50; /* Dark background */
+            color: white;
+            
+        }
+
+        .main{
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        /* Form container styling */
+        form {
+        background-color:#4f5f67;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+      box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.15);
+      overflow: hidden;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      border-left: 1px solid rgba(255,255,255,0.5);  
+      height: 400px;
+      width: 350px;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+       /* Fixed width for the form */
+        }
+
+        label {
+            font-weight: bold;
+            color: #fff;
+        }
+
+        input[type="text"], select {
+            width: 100%; /* Full width inputs */
+            padding: 10px;
+          margin: 8px 0; /* Spacing between inputs */
+            border: 1px solid #ccc; /* Border style */
+            border-radius: 4px; /
+        }
+
+        input[type="text"]:focus, select:focus {
+            border-color: #ffcc00;
+        }
+
+        button[type="submit"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        /* Icon preview styling */
+        .icon-preview {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <%- include('../includes/navbar.ejs') %>
+    </div>
+    <%- include('../includes/flash.ejs') %>
+     <div class="main">
+    <form action="/add-expenditure" method="POST">
+        <label for="categories">Categories:
+            <input type="text" name="description" id="categories" required>
+        </label>
+        <label for="amount">Amount:
+            <input type="text" name="amount" id="amount" required>
+        </label>
+        
+        <!-- Icon selection dropdown with more options -->
+        <label for="icon">Select Icon:
+            <select name="icon" id="icon" onchange="showIconPreview()">
+                <option value="fa-shopping-cart">Shopping</option>
+                <option value="fa-utensils">Food</option>
+                <option value="fa-bus">Transport</option>
+                <option value="fa-film">Entertainment</option>
+                <option value="fa-book">Education</option>
+                <option value="fa-medkit">Health</option>
+                <option value="fa-home">Rent</option>
+                <option value="fa-lightbulb">Utilities</option>
+                <option value="fa-laptop">Technology</option>
+                <option value="fa-graduation-cap">School Supplies</option>
+            </select>
+        </label>
+
+        <!-- Custom icon input -->
+        <label for="customIcon">Or Enter Custom Icon:
+            <input type="text" name="customIcon" id="customIcon" placeholder="e.g., fa-coffee" oninput="showIconPreview()">
+        </label>
+
+        <!-- Icon preview -->
+        <div class="icon-preview" id="iconPreview">
+            <i class="fas fa-shopping-cart"></i> <!-- Default icon preview -->
+        </div>
+
+        <button type="submit">Add Expenditures</button>
+    </form>
+    </div>
+
+    <script>
+        // Function to generate a random color
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function showIconPreview() {
+            const iconSelect = document.getElementById('icon').value;
+            const customIconInput = document.getElementById('customIcon').value.trim();
+            
+            // Use custom icon if provided; otherwise, use selected icon
+            const iconClass = customIconInput || iconSelect;
+
+            // Get index of selected icon in dropdown to assign color
+            const iconIndex = Array.from(document.getElementById('icon').options).findIndex(option => option.value === iconClass);
+            const iconColor = customIconInput ? getRandomColor() : getColorFromIndex(iconIndex); // Random color for custom icon
+
+            // Update the icon preview
+            document.getElementById('iconPreview').innerHTML = `<i class="fas ${iconClass}" style="color: ${iconColor}"></i>`;
+        }
+
+        // Colors array for dropdown icons
+        const colors = [
+            "#ffcc00", "#ff5733", "#33ccff", "#28a745", "#d633ff",
+            "#ffc300", "#f54242", "#6a0dad", "#f0ad4e", "#20c997"
+        ];
+
+        // Function to get color from the index of the icon
+        function getColorFromIndex(index) {
+            return colors[index % colors.length];
+        }
+    </script>
+
+    <%- include('../includes/footer.ejs') %>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Include Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="navbar">
+        <%- include('../includes/navbar.ejs') %>
+      </div>
+      <%- include('../includes/flash.ejs') %>
+        <div class="heading">
+         
+        </div>
+        </div>
+       
+        <!-- Bar graph container -->
+         <div class="chart-container">
+            <div class="sub-heading">
+                <p>FINANCES BASICS</p>
+                <h1>MANAGE</h1>
+                <h1 id="your" >YOUR</h1>
+                <h1><span id="budget"></span></h1>
+                <% if (!currUser) { %>
+                    <button class="Get-Started" onclick="window.location.href='/signup';">Get Started</button>
+                    <% } else { %>
+                    <button class="Get-Started" onclick="window.location.href='/expense';">Explore</button>
+                <% } %>
+    
+            </div>
+
+            
+        <div id="tilt-container">
+            <div id="card">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>&copy; 2024 Expense Tracker. All Rights Reserved To JSR coders.</p>
+    </footer>
+    
+    
+       
+
+
+
+    <script>
+        // Initialize chart data
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const chartData = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [{
+                label: 'Monthly Expenses',
+                data: [100, 200, 300, 400, 500, 600, 700],
+                backgroundColor: [
+                    '#FF6384',  // Red for January
+                    '#36A2EB',  // Blue for February
+                    '#FFCE56',  // Yellow for March
+                    '#4CAF50',  // Green for April
+                    '#FF9F40',  // Orange for May
+                    '#9966FF',  // Purple for June
+                    '#00C851'   // Light Green for July
+                ],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        // Chart options with white font for text elements
+        const chartOptions = {
+            scales: {
+                x: {
+                    ticks: {
+                        color: 'white' // X-axis label color
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: 'white', // Y-axis label color
+                        beginAtZero: true
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white' // Legend label color
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Monthly Expenses',
+                    color: 'white' // Title text color
+                }
+            }
+        };
+
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: chartOptions
+        });
+
+        // Function to simulate dynamic data update
+        function updateChart() {
+            const newData = Math.floor(Math.random() * 500) + 100; // Generate random new data
+            chartData.datasets[0].data.shift(); // Remove the first data point
+            chartData.datasets[0].data.push(newData); // Add new data point
+            chartData.labels.shift(); // Remove the first label
+            const nextMonth = `Month ${chartData.labels.length + 1}`;
+            chartData.labels.push(nextMonth); // Add new label
+            myChart.update(); // Update the chart
+        }
+
+        // Update chart every 2 seconds
+        setInterval(updateChart, 2000);
+    </script>
+
+<script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+<script>
+var typed = new Typed('#budget', {
+  strings: ['BUDGET'],
+  typeSpeed: 200,
+  loop:true
+});
+
+</script>
+
+<!-- Chatbot Script -->
+
+</body>
+</html>

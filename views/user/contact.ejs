@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+       .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .main {
+            background-color:#4f5f67;
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+            width: 80%;
+            max-width: 800px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            color: white;
+        }
+
+        .contact-panel {
+            width: 100%;
+        }
+        .contact-panel h1 {
+            color: orange;
+            margin-bottom: 20px;
+
+        }
+        
+        .contact {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .contact p {
+            font-size: 18px;
+            font-weight: 500;
+            margin: 15px 0;
+        }
+        
+        .contact p i {
+            color: #ff004f;
+            margin-right: 10px;
+            font-size: 24px;
+        }
+        
+        .contact-right form input, .contact-right form textarea {
+            background: rgba(255, 255, 255, 0.9);
+            margin: 12px;
+            outline: none;
+            color: black;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 18px;
+            border: 0;
+            width: calc(100% - 24px);
+        }
+        
+        .contact-right form #message {
+            height: 120px;
+        }
+
+        .btn.btn3 {
+            display: block;
+            background: #ff004f;
+            color: white;
+            text-align: center;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px auto 0;
+            width: fit-content;
+        }
+
+        .social-icons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .social-icons a i {
+            font-size: 35px;
+            color: #ababab;
+            transition: transform 0.5s;
+            margin: 10px;
+        }
+        
+        .social-icons a i:hover {
+            color: #ff004f;
+            transform: translateY(-5px);
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <%- include('../includes/navbar.ejs') %>
+    </div>
+    <%- include('../includes/flash.ejs') %>
+    <div class="content">
+        <div class="main">
+            <div class="contact-panel">
+                <h1><span id="title"></span></h1>
+                <div class="contact">
+                    <p><i class="fa-solid fa-paper-plane"></i>prateekbambal@gmail.com</p>
+                    <p><i class="fa-solid fa-paper-plane"></i>atuld0308@gmail.com</p>          
+                </div>
+                <div class="contact-right">
+                    <form name="submit-to-google-sheet">
+                        <input id="name" type="text" name="Name" placeholder="Your Name" required><br>
+                        <input id="email" type="email" name="Email" placeholder="Your Email" required><br>
+                        <textarea id="message" name="Message" placeholder="Your Message"></textarea>
+                        <button type="submit" class="btn btn3">Submit</button>
+                    </form>
+                    <span id="msg"></span>
+                </div>
+                <div class="social-icons">
+                    <a href="https://www.linkedin.com/in/ayush-kumar-1697b5289/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://github.com/ayush462/"><i class="fa-brands fa-github"></i></a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <%- include('../includes/footer.ejs') %>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzOABQ9LZTRMeYDUuP1Pn0xWyXvEFOK-09A5VzMa0A6JVC-i1IYi0As9_epRRC-HdHD/exec'
+        const form = document.forms['submit-to-google-sheet']
+        const msg = document.getElementById('msg')
+      
+        form.addEventListener('submit', e => {
+          e.preventDefault()
+          fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response => {
+                msg.innerHTML='message sent succsesfully'
+                setTimeout(function(){
+                    msg.innerHTML=''
+                },90000)
+                form.reset();
+
+            })
+            .catch(error => console.error('Error!', error.message))
+        })
+    </script>
+      <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+      <script>
+       var typed = new Typed('#title', {
+       strings: ['Contact Us'],
+       typeSpeed: 100,
+       loop:true
+       });
+     </script>
+</body>
+</html>
